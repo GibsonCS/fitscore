@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from "react";
+import { supabase, isSupabaseConfigured } from "./supabase";
+import { AuthContext } from "./auth";
+import type { Session } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
-import React, { useEffect, useState } from 'react';
-import { supabase, isSupabaseConfigured } from './supabase';
-import { AuthContext } from './auth';
-import type { Session } from '@supabase/supabase-js';
-import { useToast } from '@/hooks/use-toast';
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -33,12 +34,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (error) {
         toast({
           title: "Falha no login",
           description: error.message,
-          variant: "destructive"
+          variant: "destructive",
         });
       }
       return { error };
@@ -46,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast({
         title: "Erro",
         description: "Ocorreu um erro ao fazer login",
-        variant: "destructive"
+        variant: "destructive",
       });
       return { error };
     }
@@ -59,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toast({
           title: "Falha no cadastro",
           description: error.message,
-          variant: "destructive"
+          variant: "destructive",
         });
       } else {
         toast({
@@ -72,7 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       toast({
         title: "Erro",
         description: "Ocorreu um erro ao criar a conta",
-        variant: "destructive"
+        variant: "destructive",
       });
       return { error };
     }
@@ -83,14 +87,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider 
-      value={{ 
-        session, 
-        user: session?.user ?? null, 
+    <AuthContext.Provider
+      value={{
+        session,
+        user: session?.user ?? null,
         loading,
         signIn,
         signUp,
-        signOut
+        signOut,
       }}
     >
       {children}

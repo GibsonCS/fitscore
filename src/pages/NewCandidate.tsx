@@ -1,9 +1,8 @@
+import { useAuth } from "@/lib/auth";
+import { Navigate } from "react-router-dom";
+import { CandidateForm } from "@/components/CandidateForm";
 
-import { useAuth } from '@/lib/auth';
-import { Navigate } from 'react-router-dom';
-import { CandidateForm } from '@/components/CandidateForm';
-
-const NewCandidate = () => {
+const NewCandidate: React.FC = () => {
   const { session, loading } = useAuth();
 
   if (loading) {
@@ -23,5 +22,4 @@ const NewCandidate = () => {
     </div>
   );
 };
-
 export default NewCandidate;

@@ -1,7 +1,5 @@
-
-import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from './supabase';
-import type { Session, User } from '@supabase/supabase-js';
+import { createContext, useContext } from "react";
+import type { Session, User } from "@supabase/supabase-js";
 
 type AuthContextType = {
   session: Session | null;
@@ -24,7 +22,7 @@ export const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

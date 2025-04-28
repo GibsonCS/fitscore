@@ -1,15 +1,14 @@
-
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import Navbar from '../components/Navbar';
-import Hero from '../components/Hero';
-import Benefits from '../components/Benefits';
-import HowItWorks from '../components/HowItWorks';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Benefits from "../components/Benefits";
+import HowItWorks from "../components/HowItWorks";
+import CTA from "../components/CTA";
+import Footer from "../components/Footer";
 
-const Index = () => {
+const Index: React.FC = () => {
   const navigate = useNavigate();
 
   return (
@@ -18,10 +17,12 @@ const Index = () => {
       <main>
         <div className="container mx-auto px-4 py-12 text-center">
           <h1 className="text-4xl font-bold mb-6">Bem-vindo ao FitScore</h1>
-          <p className="text-xl mb-8">Sistema de avaliação preditiva de candidatos</p>
-          <Button 
-            className="cta-button"
-            onClick={() => navigate('/candidate-form')}
+          <p className="text-xl mb-8">
+            Sistema de avaliação preditiva de candidatos
+          </p>
+          <Button
+            className="cta-button hover:scale-110 transition-all duration-500"
+            onClick={() => navigate("/candidate-form")}
           >
             Iniciar Avaliação
           </Button>
@@ -35,5 +36,4 @@ const Index = () => {
     </div>
   );
 };
-
 export default Index;
