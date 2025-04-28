@@ -24,6 +24,9 @@ const formSchema = z.object({
   soft_skills_score: z.number().min(0).max(100),
   experience_score: z.number().min(0).max(100),
   culture_fit_score: z.number().min(0).max(100),
+  culture_score: z.number().min(0).max(100),
+  performance_score: z.number().min(0).max(100),
+  energy_score: z.number().min(0).max(100),
   comments: z.string().optional(),
 });
 
@@ -42,6 +45,9 @@ export function EvaluationForm({ candidateId }: EvaluationFormProps) {
       soft_skills_score: 50,
       experience_score: 50,
       culture_fit_score: 50,
+      culture_score: 50,
+      performance_score: 50,
+      energy_score: 50,
       comments: "",
     },
   });
@@ -157,6 +163,79 @@ export function EvaluationForm({ candidateId }: EvaluationFormProps) {
             </FormItem>
           )}
         />
+
+        <div className="border-t pt-6 mt-6">
+          <h3 className="text-lg font-medium mb-4">Atributos pessoais</h3>
+          
+          <FormField
+            control={form.control}
+            name="culture_score"
+            render={({ field: { value, onChange } }) => (
+              <FormItem>
+                <FormLabel>Cultura (alinhamento com valores da empresa)</FormLabel>
+                <FormControl>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={[value]}
+                    onValueChange={(vals) => onChange(vals[0])}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Avalie o alinhamento do candidato com valores da empresa (0-100)
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="performance_score"
+            render={({ field: { value, onChange } }) => (
+              <FormItem className="mt-4">
+                <FormLabel>Performance (capacidade de entrega e resultado)</FormLabel>
+                <FormControl>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={[value]}
+                    onValueChange={(vals) => onChange(vals[0])}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Avalie a capacidade de entrega e resultados do candidato (0-100)
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="energy_score"
+            render={({ field: { value, onChange } }) => (
+              <FormItem className="mt-4">
+                <FormLabel>Energia (atitude, resiliência e dinamismo)</FormLabel>
+                <FormControl>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={[value]}
+                    onValueChange={(vals) => onChange(vals[0])}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Avalie a atitude, resiliência e dinamismo do candidato (0-100)
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

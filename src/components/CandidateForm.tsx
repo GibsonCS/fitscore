@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -23,7 +24,10 @@ const formSchema = z.object({
   phone: z.string().min(10, "Telefone deve ter pelo menos 10 dígitos").optional(),
   position: z.string().min(2, "Cargo deve ter pelo menos 2 caracteres"),
   experience: z.string().min(10, "Por favor, descreva sua experiência com pelo menos 10 caracteres"),
-  skills: z.string().min(5, "Por favor, liste suas habilidades")
+  skills: z.string().min(5, "Por favor, liste suas habilidades"),
+  cultura: z.boolean().default(false).optional(),
+  performance: z.boolean().default(false).optional(),
+  energia: z.boolean().default(false).optional(),
 });
 
 interface CandidateFormProps {
@@ -41,7 +45,10 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
       phone: "",
       position: "",
       experience: "",
-      skills: ""
+      skills: "",
+      cultura: false,
+      performance: false,
+      energia: false,
     },
   });
 
@@ -159,6 +166,76 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
             </FormItem>
           )}
         />
+
+        <div className="space-y-3">
+          <h3 className="text-lg font-medium">Atributos pessoais</h3>
+          <p className="text-sm text-muted-foreground">Selecione os atributos que melhor te descrevem</p>
+          
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <FormField
+              control={form.control}
+              name="cultura"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Cultura</FormLabel>
+                    <FormDescription>
+                      Alinhamento com valores da empresa
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="performance"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Performance</FormLabel>
+                    <FormDescription>
+                      Capacidade de entrega e resultado
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="energia"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Energia</FormLabel>
+                    <FormDescription>
+                      Atitude, resiliência e dinamismo
+                    </FormDescription>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Enviando..." : "Enviar Candidatura"}
