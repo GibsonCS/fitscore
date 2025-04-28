@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { UserPlus, Star, Search, Clipboard } from 'lucide-react';
+import { UserPlus, Star, Search, Clipboard, TrendingUp, ChartBar } from 'lucide-react';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from '@/components/ui/sonner';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 import { 
   Card, 
   CardContent, 
@@ -15,6 +16,16 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { ChartContainer } from '@/components/ui/chart';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
 
 interface Candidate {
   id: string;
@@ -23,8 +34,8 @@ interface Candidate {
   phone?: string;
   position: string;
   experience: string;
-  skills: string;
   created_at: string;
+  fitScore?: number;
 }
 
 const Dashboard = () => {
@@ -47,6 +58,26 @@ const Dashboard = () => {
     candidate.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
     candidate.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Sort candidates by fitScore in descending order to get top candidates
+  const topCandidates = [...candidates]
+    .filter(candidate => candidate.fitScore !== undefined)
+    .sort((a, b) => (b.fitScore || 0) - (a.fitScore || 0))
+    .slice(0, 5);
+
+  // Prepare data for the charts
+  const scoreDistributionData = [
+    { range: '0-20', count: candidates.filter(c => c.fitScore !== undefined && c.fitScore < 20).length },
+    { range: '21-40', count: candidates.filter(c => c.fitScore !== undefined && c.fitScore >= 20 && c.fitScore < 40).length },
+    { range: '41-60', count: candidates.filter(c => c.fitScore !== undefined && c.fitScore >= 40 && c.fitScore < 60).length },
+    { range: '61-80', count: candidates.filter(c => c.fitScore !== undefined && c.fitScore >= 60 && c.fitScore < 80).length },
+    { range: '81-100', count: candidates.filter(c => c.fitScore !== undefined && c.fitScore >= 80).length },
+  ];
+
+  // Get average score
+  const averageScore = candidates.length > 0 
+    ? Math.round(candidates.reduce((acc, curr) => acc + (curr.fitScore || 0), 0) / candidates.length) 
+    : 0;
 
   if (loading) {
     return (
@@ -79,6 +110,98 @@ const Dashboard = () => {
               </Link>
             </Button>
           </div>
+        </div>
+
+        {/* Mini Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* Top Candidates Card */}
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <TrendingUp className="mr-2 h-5 w-5 text-green-500" />
+                Top Candidatos por FitScore
+              </CardTitle>
+              <CardDescription>
+                Candidatos com as melhores avaliações de cultura, performance e energia
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {topCandidates.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground">
+                    Nenhum candidato avaliado ainda
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {topCandidates.map((candidate, index) => (
+                    <div key={candidate.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-md">
+                      <div className="flex items-center">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary mr-3">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <p className="font-medium">{candidate.name}</p>
+                          <p className="text-xs text-muted-foreground">{candidate.position}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <Badge className="bg-green-500">{candidate.fitScore}/100</Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Score Summary Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <ChartBar className="mr-2 h-5 w-5 text-blue-500" />
+                Resumo FitScore
+              </CardTitle>
+              <CardDescription>
+                Visão geral dos scores de candidatos
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex flex-col items-center justify-center">
+                  <span className="text-lg text-muted-foreground mb-1">Média FitScore</span>
+                  <div className="text-4xl font-bold">{averageScore}</div>
+                </div>
+                
+                <div className="h-[200px] w-full">
+                  {candidates.length > 0 ? (
+                    <ChartContainer
+                      config={{
+                        score: {
+                          theme: {
+                            light: "#3b82f6",
+                            dark: "#60a5fa",
+                          },
+                        },
+                      }}
+                    >
+                      <BarChart data={scoreDistributionData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="range" />
+                        <YAxis allowDecimals={false} />
+                        <Tooltip />
+                        <Bar dataKey="count" name="Candidatos" fill="var(--color-score)" />
+                      </BarChart>
+                    </ChartContainer>
+                  ) : (
+                    <div className="h-full flex items-center justify-center text-muted-foreground">
+                      Sem dados suficientes para exibir o gráfico
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <Card className="mb-8">
@@ -128,16 +251,27 @@ const Dashboard = () => {
                           </div>
                           <div className="space-y-2">
                             <p className="text-sm"><span className="font-medium">Experiência:</span> {candidate.experience}</p>
-                            <p className="text-sm"><span className="font-medium">Habilidades:</span> {candidate.skills}</p>
                           </div>
                         </div>
                         <div className="flex flex-col items-end gap-2">
                           <div className="flex items-center text-amber-500">
-                            <Star className="fill-amber-500 h-4 w-4" />
-                            <Star className="fill-amber-500 h-4 w-4" />
-                            <Star className="fill-amber-500 h-4 w-4" />
-                            <Star className="h-4 w-4" />
-                            <Star className="h-4 w-4" />
+                            {candidate.fitScore !== undefined ? (
+                              <Badge variant={candidate.fitScore >= 80 ? "default" : 
+                                candidate.fitScore >= 60 ? "secondary" : "outline"}
+                                className={candidate.fitScore >= 80 ? "bg-green-500" : 
+                                  candidate.fitScore >= 60 ? "bg-amber-500" : ""}
+                              >
+                                FitScore: {candidate.fitScore}
+                              </Badge>
+                            ) : (
+                              <>
+                                <Star className="fill-amber-500 h-4 w-4" />
+                                <Star className="fill-amber-500 h-4 w-4" />
+                                <Star className="fill-amber-500 h-4 w-4" />
+                                <Star className="h-4 w-4" />
+                                <Star className="h-4 w-4" />
+                              </>
+                            )}
                           </div>
                           <Button size="sm" variant="outline">
                             Avaliar
