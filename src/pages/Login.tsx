@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
@@ -14,47 +13,15 @@ const Login = () => {
   const [email] = useState('demo@fitscore.com');
   const [password] = useState('senha123');
   const [loading, setLoading] = useState(false);
-  const supabaseConfigured = isSupabaseConfigured();
-
-  useEffect(() => {
-    // Check if user is already logged in
-    const checkSession = async () => {
-      if (!supabaseConfigured) return;
-      
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        console.log("User already logged in, redirecting to dashboard");
-        navigate('/dashboard');
-      }
-    };
-    
-    checkSession();
-  }, [navigate]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (!supabaseConfigured) {
-        // Use demo mode if Supabase isn't configured
-        console.log("Login in demo mode, redirecting to dashboard");
-        toast.success('Login em modo demo realizado com sucesso!');
-        
-        navigate('/dashboard', { replace: true }); 
-        return;
-      }
-
-      // Login with demo credentials
-      const response = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (response.error) throw response.error;
-
-      console.log("Login successful, redirecting to dashboard");
-      toast.success('Login realizado com sucesso!');
+      // Always use demo mode
+      console.log("Login in demo mode, redirecting to dashboard");
+      toast.success('Login em modo demo realizado com sucesso!');
       
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
@@ -77,14 +44,12 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!supabaseConfigured && (
-            <Alert className="mb-4">
-              <Info className="h-4 w-4" />
-              <AlertDescription>
-                Modo DEMO ativo. Clique em Entrar para acessar o dashboard sem autenticação real.
-              </AlertDescription>
-            </Alert>
-          )}
+          <Alert className="mb-4">
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              Modo DEMO ativo. Clique em Entrar para acessar o dashboard sem autenticação real.
+            </AlertDescription>
+          </Alert>
           <form onSubmit={handleAuth} className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
