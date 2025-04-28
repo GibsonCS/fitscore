@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -25,9 +24,7 @@ const formSchema = z.object({
   position: z.string().min(2, "Cargo deve ter pelo menos 2 caracteres"),
   experience: z.string().min(10, "Por favor, descreva sua experiência com pelo menos 10 caracteres"),
   skills: z.string().min(5, "Por favor, liste suas habilidades"),
-  cultura: z.boolean().default(false).optional(),
-  performance: z.boolean().default(false).optional(),
-  energia: z.boolean().default(false).optional(),
+  personalAttributes: z.string().min(10, "Por favor, descreva seus atributos pessoais com pelo menos 10 caracteres"),
 });
 
 interface CandidateFormProps {
@@ -46,9 +43,7 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
       position: "",
       experience: "",
       skills: "",
-      cultura: false,
-      performance: false,
-      energia: false,
+      personalAttributes: "",
     },
   });
 
@@ -167,75 +162,26 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
           )}
         />
 
-        <div className="space-y-3">
-          <h3 className="text-lg font-medium">Atributos pessoais</h3>
-          <p className="text-sm text-muted-foreground">Selecione os atributos que melhor te descrevem</p>
-          
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="cultura"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Cultura</FormLabel>
-                    <FormDescription>
-                      Alinhamento com valores da empresa
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="performance"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Performance</FormLabel>
-                    <FormDescription>
-                      Capacidade de entrega e resultado
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="energia"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Energia</FormLabel>
-                    <FormDescription>
-                      Atitude, resiliência e dinamismo
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+        <FormField
+          control={form.control}
+          name="personalAttributes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Atributos Pessoais</FormLabel>
+              <FormControl>
+                <Textarea 
+                  placeholder="Descreva seus atributos pessoais, como cultura (alinhamento com valores da empresa), performance (capacidade de entrega e resultado) e energia (atitude, resiliência e dinamismo)."
+                  className="min-h-[120px]" 
+                  {...field} 
+                />
+              </FormControl>
+              <FormDescription>
+                Com base em sua resposta, nosso sistema utilizará inteligência artificial para gerar um FitScore de 0 a 100, auxiliando no processo de avaliação.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Enviando..." : "Enviar Candidatura"}

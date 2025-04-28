@@ -13,12 +13,16 @@ const CandidateFormPage = () => {
   // Override the form submission to handle it without authentication
   const handleFormSubmitted = async (data: any) => {
     try {
+      // Generate a simulated AI-based FitScore between 0-100
+      const fitScore = Math.floor(Math.random() * 101); // Simulated AI score
+      
       // Store in localStorage for demo purposes
       const candidates = JSON.parse(localStorage.getItem('candidates') || '[]');
       const newCandidate = { 
         ...data, 
         id: crypto.randomUUID(),
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        fitScore: fitScore // Add the generated fit score
       };
       
       candidates.push(newCandidate);
