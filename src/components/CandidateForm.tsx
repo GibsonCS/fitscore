@@ -23,7 +23,6 @@ const formSchema = z.object({
   phone: z.string().min(10, "Telefone deve ter pelo menos 10 dígitos").optional(),
   position: z.string().min(2, "Cargo deve ter pelo menos 2 caracteres"),
   experience: z.string().min(10, "Por favor, descreva sua experiência com pelo menos 10 caracteres"),
-  skills: z.string().min(5, "Por favor, liste suas habilidades"),
   personalAttributes: z.string().min(10, "Por favor, descreva seus atributos pessoais com pelo menos 10 caracteres"),
 });
 
@@ -42,7 +41,6 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
       phone: "",
       position: "",
       experience: "",
-      skills: "",
       personalAttributes: "",
     },
   });
@@ -146,24 +144,6 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
 
         <FormField
           control={form.control}
-          name="skills"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Habilidades</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="Liste suas principais habilidades técnicas e comportamentais (ex: React, Node.js, trabalho em equipe, comunicação)."
-                  className="min-h-[100px]" 
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="personalAttributes"
           render={({ field }) => (
             <FormItem>
@@ -176,7 +156,7 @@ export function CandidateForm({ onSubmitSuccess }: CandidateFormProps) {
                 />
               </FormControl>
               <FormDescription>
-                Com base em sua resposta, nosso sistema utilizará inteligência artificial para gerar um FitScore de 0 a 100, auxiliando no processo de avaliação.
+                Com base em sua resposta, nosso sistema utilizará inteligência artificial e análise semântica para gerar um FitScore de 0 a 100, facilitando decisões de contratação de forma rápida, segura e estratégica.
               </FormDescription>
               <FormMessage />
             </FormItem>

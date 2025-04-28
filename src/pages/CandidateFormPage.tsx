@@ -43,7 +43,7 @@ const CandidateFormPage = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl">Formulário de Candidatura</CardTitle>
             <CardDescription>
-              Preencha seus dados para iniciar o processo de avaliação
+              Preencha seus dados para iniciar o processo de avaliação preditiva baseada em Cultura, Performance e Energia
             </CardDescription>
           </CardHeader>
           <CardContent>
