@@ -1,65 +1,39 @@
-# Welcome to your Lovable project
+# Welcome to your FitStore
 
-## How can I edit this code?
+### Where this project is available ?
+#### on the "url"
 
-There are several ways of editing your application.
+***
 
-Changes made via Lovable will be committed automatically to this repo.
+## Project desing and struct
 
-**Use your preferred IDE**
+The desing and struct of the project were developed with the itention of presenting the ease of use of our product (UX) and at the same time, demonstrating this in a simple and pratical way by providing a demov.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## What was the strategic decision in this project?
+Since this is an MVP and we need to be very fast, we used a no-code platform to make it fast and deployable. However, this code was reviewed and refactored before going into production. Once this product is validated, the MVP will need to be enhanced with hard code.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
+## How can I run this project?
 Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/GibsonCS/fitscore.git
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd fitscore
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm ci to restore all dependency in the version that this project was developer
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
 ## What technologies are used for this project?
 
 This project is built with:
-
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/66990680-f7f9-4edb-a8d7-2f3c3d5e0a34) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
