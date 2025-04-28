@@ -37,3 +37,14 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+## IMAGES
+![image](https://github.com/user-attachments/assets/21bf46f8-2b12-4c70-8982-9b53c532e45b)
+![image](https://github.com/user-attachments/assets/b36225f1-304b-4568-af99-8128b6a3d8b5)
+![image](https://github.com/user-attachments/assets/7065042d-e89e-447e-afd8-09505858ef4d)
+![image](https://github.com/user-attachments/assets/9109949f-7db5-4937-a1bf-4037c8bf3b79)
+![image](https://github.com/user-attachments/assets/60c01f2e-be43-4dad-bba2-f72784c728ab)
+
+
+
+
