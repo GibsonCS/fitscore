@@ -15,9 +15,9 @@ const Dashboard = () => {
     return <div>Carregando...</div>;
   }
 
-  // if (session) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (session) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
