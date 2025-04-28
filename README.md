@@ -22,8 +22,8 @@ git clone https://github.com/GibsonCS/fitscore.git
 # Step 2: Navigate to the project directory.
 cd fitscore
 
-# Step 3: Install the necessary dependencies.
-npm ci to restore all dependency in the version that this project was developer
+# Step 3: Install the necessary dependencies in the version that this project was developer.
+npm ci
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
