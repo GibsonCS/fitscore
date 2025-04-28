@@ -5,16 +5,15 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Info, UserPlus } from "lucide-react";
+import { Info } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('demo@fitscore.com');
-  const [password, setPassword] = useState('senha123');
+  const [email] = useState('demo@fitscore.com');
+  const [password] = useState('senha123');
   const [loading, setLoading] = useState(false);
-  const [isRegister, setIsRegister] = useState(false);
   const supabaseConfigured = isSupabaseConfigured();
 
   useEffect(() => {
@@ -46,48 +45,23 @@ const Login = () => {
         return;
       }
 
-      let response;
-      
-      if (isRegister) {
-        // Register new user without email confirmation
-        response = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              email_confirm: true
-            }
-          }
-        });
-        
-        if (!response.error) {
-          // Auto sign in after registration
-          response = await supabase.auth.signInWithPassword({
-            email,
-            password,
-          });
-        }
-      } else {
-        // Login existing user
-        response = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-      }
+      // Login with demo credentials
+      const response = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
       if (response.error) throw response.error;
 
-      console.log(isRegister ? "Registration successful" : "Login successful", "redirecting to dashboard");
-      toast.success(isRegister 
-        ? 'Cadastro realizado com sucesso!' 
-        : 'Login realizado com sucesso!');
+      console.log("Login successful, redirecting to dashboard");
+      toast.success('Login realizado com sucesso!');
       
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
       }, 300);
     } catch (error: any) {
       console.error("Auth error:", error);
-      toast.error(error.message || 'Erro ao fazer login/cadastro');
+      toast.error(error.message || 'Erro ao fazer login');
     } finally {
       setLoading(false);
     }
@@ -97,11 +71,9 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{isRegister ? 'Cadastro FitScore' : 'Login FitScore'}</CardTitle>
+          <CardTitle>Login FitScore</CardTitle>
           <CardDescription>
-            {isRegister 
-              ? 'Crie sua conta para acessar o dashboard de avaliação de candidatos'
-              : 'Entre para acessar o dashboard de avaliação de candidatos'}
+            Entre para acessar o dashboard de avaliação de candidatos
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -121,10 +93,9 @@ const Login = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="seu@email.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                disabled
+                className="bg-gray-50"
               />
             </div>
             <div className="space-y-2">
@@ -135,8 +106,8 @@ const Login = () => {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                disabled
+                className="bg-gray-50"
               />
             </div>
             <Button 
@@ -144,26 +115,10 @@ const Login = () => {
               className="w-full cta-button mt-4"
               disabled={loading}
             >
-              {loading ? 'Processando...' : isRegister ? 'Cadastrar' : 'Entrar'}
+              {loading ? 'Processando...' : 'Entrar'}
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button 
-            variant="outline" 
-            className="w-full" 
-            onClick={() => setIsRegister(!isRegister)}
-          >
-            {isRegister ? 'Já tem uma conta? Entre' : 'Novo por aqui? Cadastre-se'}
-            {!isRegister && <UserPlus className="ml-2 h-4 w-4" />}
-          </Button>
-          {supabaseConfigured && (
-            <div className="text-xs text-muted-foreground text-center">
-              {isRegister ? 'Ao se cadastrar você concorda com os termos de uso do FitScore' : 
-                'Use demo@fitscore.com e senha123 para testar (crie uma conta primeiro)'}
-            </div>
-          )}
-        </CardFooter>
       </Card>
     </div>
   );
