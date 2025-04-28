@@ -3,7 +3,7 @@ import React from 'react';
 import { useAuth } from '@/lib/auth';
 import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { UserPlus, Star } from 'lucide-react';
 
 const Dashboard = () => {
   const { session, loading } = useAuth();
@@ -21,12 +21,14 @@ const Dashboard = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Dashboard FitScore</h1>
-          <Button asChild>
-            <Link to="/candidates/new">
-              <UserPlus className="mr-2" />
-              Novo Candidato
-            </Link>
-          </Button>
+          <div className="flex gap-4">
+            <Button asChild>
+              <Link to="/candidates/new">
+                <UserPlus className="mr-2" />
+                Novo Candidato
+              </Link>
+            </Button>
+          </div>
         </div>
         <div className="grid gap-6">
           {/* O conteúdo do dashboard será implementado em seguida */}
