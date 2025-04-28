@@ -1,21 +1,45 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '@/lib/auth';
 import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { UserPlus, Star, AlertTriangle } from 'lucide-react';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { toast } from '@/components/ui/sonner';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Dashboard = () => {
   const { session, loading } = useAuth();
   const supabaseReady = isSupabaseConfigured();
 
+  useEffect(() => {
+    // Verificar se o Supabase está configurado e mostrar uma mensagem
+    if (!supabaseReady) {
+      toast.info('Aplicação rodando em modo demo');
+    }
+  }, [supabaseReady]);
+
   if (loading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-between items-center mb-6">
+            <Skeleton className="h-10 w-64" />
+            <Skeleton className="h-10 w-40" />
+          </div>
+          <Skeleton className="h-24 w-full mb-6" />
+          <div className="space-y-4">
+            <Skeleton className="h-48 w-full" />
+            <Skeleton className="h-48 w-full" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  if (session) {
+  // Aqui está a correção: Redirecionar para login se NÃO tiver sessão
+  if (!session && !loading && supabaseReady) {
     return <Navigate to="/login" />;
   }
 
@@ -47,6 +71,7 @@ const Dashboard = () => {
         <div className="grid gap-6">
           {/* O conteúdo do dashboard será implementado em seguida */}
           <p>Bem-vindo ao Dashboard do FitScore!</p>
+          <p>{session ? `Usuário logado: ${session.user.email}` : 'Modo demo ativo'}</p>
         </div>
       </div>
     </div>
