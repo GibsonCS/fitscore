@@ -40,7 +40,12 @@ const Login = () => {
         // Use demo mode if Supabase isn't configured
         console.log("Login in demo mode, redirecting to dashboard");
         toast.success('Login em modo demo realizado com sucesso!');
-        navigate('/dashboard');
+        
+        // Force a timeout before navigation to ensure toast is visible
+        setTimeout(() => {
+          navigate('/dashboard', { replace: true });
+        }, 300);
+        
         return;
       }
 
@@ -53,7 +58,11 @@ const Login = () => {
 
       console.log("Login successful, redirecting to dashboard");
       toast.success('Login realizado com sucesso!');
-      navigate('/dashboard');
+      
+      // Force a timeout before navigation to ensure toast is visible
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 300);
     } catch (error: any) {
       console.error("Login error:", error);
       toast.error(error.message || 'Erro ao fazer login');
