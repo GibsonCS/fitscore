@@ -3,10 +3,13 @@ import React from 'react';
 import { useAuth } from '@/lib/auth';
 import { Navigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { UserPlus, Star } from 'lucide-react';
+import { UserPlus, Star, AlertTriangle } from 'lucide-react';
+import { isSupabaseConfigured } from '@/lib/supabase';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const Dashboard = () => {
   const { session, loading } = useAuth();
+  const supabaseReady = isSupabaseConfigured();
 
   if (loading) {
     return <div>Carregando...</div>;
@@ -30,6 +33,17 @@ const Dashboard = () => {
             </Button>
           </div>
         </div>
+        
+        {!supabaseReady && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Configuração necessária</AlertTitle>
+            <AlertDescription>
+              O Supabase não está configurado. Conecte seu projeto ao Supabase clicando no botão verde "Supabase" no canto superior direito da interface para habilitar recursos de backend.
+            </AlertDescription>
+          </Alert>
+        )}
+        
         <div className="grid gap-6">
           {/* O conteúdo do dashboard será implementado em seguida */}
           <p>Bem-vindo ao Dashboard do FitScore!</p>
