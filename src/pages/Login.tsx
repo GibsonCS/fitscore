@@ -49,11 +49,24 @@ const Login = () => {
       let response;
       
       if (isRegister) {
-        // Register new user
+        // Register new user without email confirmation
         response = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              email_confirm: true
+            }
+          }
         });
+        
+        if (!response.error) {
+          // Auto sign in after registration
+          response = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+        }
       } else {
         // Login existing user
         response = await supabase.auth.signInWithPassword({
@@ -66,10 +79,9 @@ const Login = () => {
 
       console.log(isRegister ? "Registration successful" : "Login successful", "redirecting to dashboard");
       toast.success(isRegister 
-        ? 'Cadastro realizado com sucesso! Verifique seu email para confirmar a conta.' 
+        ? 'Cadastro realizado com sucesso!' 
         : 'Login realizado com sucesso!');
       
-      // Force a timeout before navigation to ensure toast is visible
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
       }, 300);
