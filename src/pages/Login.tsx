@@ -88,17 +88,15 @@ const Login = () => {
                 required
               />
             </div>
+            <Button 
+              type="submit"
+              className="w-full cta-button mt-4"
+              disabled={loading}
+            >
+              {loading ? 'Entrando...' : 'Entrar'}
+            </Button>
           </form>
         </CardContent>
-        <CardFooter>
-          <Button 
-            className="w-full cta-button"
-            onClick={handleLogin}
-            disabled={loading}
-          >
-            {loading ? 'Entrando...' : 'Entrar'}
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );
