@@ -39,9 +39,9 @@ const Dashboard = () => {
   }
 
   // Redirecionar para login apenas se não tiver sessão e o Supabase estiver configurado
-  if (!session && !loading && supabaseReady) {
-    return <Navigate to="/login" />;
-  }
+  // if (!session && !loading && supabaseReady) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return (
     <div className="min-h-screen bg-background">
