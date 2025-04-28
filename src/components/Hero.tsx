@@ -2,8 +2,21 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/lib/auth';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+  const { session } = useAuth();
+
+  const handleCTAClick = () => {
+    if (session) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <section className="w-full py-16 md:py-28 px-4 md:px-8 bg-gradient-hero flex flex-col items-center justify-center text-center">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -17,7 +30,10 @@ const Hero: React.FC = () => {
           <span className="text-fitscore-pink font-medium"> Energia</span>.
         </p>
         <div className="opacity-0 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-          <Button className="cta-button text-white px-8 py-6 text-lg rounded-full">
+          <Button 
+            className="cta-button text-white px-8 py-6 text-lg rounded-full"
+            onClick={handleCTAClick}
+          >
             <span>Quero Avaliar Talentos</span>
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>

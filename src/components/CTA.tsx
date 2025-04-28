@@ -2,8 +2,21 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/lib/auth';
 
 const CTA: React.FC = () => {
+  const navigate = useNavigate();
+  const { session } = useAuth();
+
+  const handleCTAClick = () => {
+    if (session) {
+      navigate('/dashboard');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <section className="w-full py-20 px-4 md:px-8 bg-gradient-to-r from-fitscore-blue/10 to-fitscore-purple/10">
       <div className="max-w-5xl mx-auto text-center">
@@ -11,7 +24,10 @@ const CTA: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-10">
           Junte-se a empresas que estão transformando suas contratações com decisões baseadas em dados objetivos e compatibilidade real.
         </p>
-        <Button className="cta-button text-white px-8 py-6 text-lg rounded-full opacity-0 animate-fade-in">
+        <Button 
+          className="cta-button text-white px-8 py-6 text-lg rounded-full opacity-0 animate-fade-in"
+          onClick={handleCTAClick}
+        >
           <span>Quero Avaliar Talentos</span>
           <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
