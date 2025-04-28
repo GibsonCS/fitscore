@@ -38,7 +38,7 @@ const Dashboard = () => {
     );
   }
 
-  // Aqui está a correção: Redirecionar para login se NÃO tiver sessão
+  // Redirecionar para login apenas se não tiver sessão e o Supabase estiver configurado
   if (!session && !loading && supabaseReady) {
     return <Navigate to="/login" />;
   }

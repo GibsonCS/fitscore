@@ -9,7 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      candidates: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          position: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          position: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          position?: string
+        }
+        Relationships: []
+      }
+      evaluations: {
+        Row: {
+          candidate_id: string
+          comments: string | null
+          created_at: string
+          culture_fit_score: number
+          evaluator_id: string
+          experience_score: number
+          fit_score: number | null
+          id: string
+          soft_skills_score: number
+          technical_score: number
+        }
+        Insert: {
+          candidate_id: string
+          comments?: string | null
+          created_at?: string
+          culture_fit_score: number
+          evaluator_id: string
+          experience_score: number
+          fit_score?: number | null
+          id?: string
+          soft_skills_score: number
+          technical_score: number
+        }
+        Update: {
+          candidate_id?: string
+          comments?: string | null
+          created_at?: string
+          culture_fit_score?: number
+          evaluator_id?: string
+          experience_score?: number
+          fit_score?: number | null
+          id?: string
+          soft_skills_score?: number
+          technical_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evaluations_candidate_id_fkey"
+            columns: ["candidate_id"]
+            isOneToOne: false
+            referencedRelation: "candidates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
