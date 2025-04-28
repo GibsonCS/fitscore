@@ -21,7 +21,7 @@ const Index = () => {
           <p className="text-xl mb-8">Sistema de avaliação preditiva de candidatos</p>
           <Button 
             className="cta-button"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/candidate-form')}
           >
             Iniciar Avaliação
           </Button>

@@ -1,23 +1,14 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, UserPlus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/lib/auth';
 
 const CTA: React.FC = () => {
   const navigate = useNavigate();
-  const { session } = useAuth();
 
   const handleCTAClick = () => {
-    if (session) {
-      navigate('/dashboard');
-    } else {
-      navigate('/login');
-    }
-  };
-
-  const handleCandidateClick = () => {
-    navigate('/candidates/new');
+    navigate('/candidate-form');
   };
 
   return (
@@ -32,17 +23,8 @@ const CTA: React.FC = () => {
             className="cta-button text-white px-8 py-6 text-lg rounded-full opacity-0 animate-fade-in"
             onClick={handleCTAClick}
           >
-            <span>Quero Avaliar Talentos</span>
+            <span>Iniciar Avaliação</span>
             <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-
-          <Button 
-            variant="outline"
-            className="px-8 py-6 text-lg rounded-full opacity-0 animate-fade-in"
-            onClick={handleCandidateClick}
-          >
-            <span>Quero me Candidatar</span>
-            <UserPlus className="ml-2 h-5 w-5" />
           </Button>
         </div>
         
