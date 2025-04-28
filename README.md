@@ -29,15 +29,6 @@ npm ci to restore all dependency in the version that this project was developer
 npm run dev
 ```
 
-## What technologies are used for this project?
-
-This project is built with:
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
 ## IMAGES
 ![image](https://github.com/user-attachments/assets/21bf46f8-2b12-4c70-8982-9b53c532e45b)
 ![image](https://github.com/user-attachments/assets/b36225f1-304b-4568-af99-8128b6a3d8b5)
@@ -45,6 +36,15 @@ This project is built with:
 ![image](https://github.com/user-attachments/assets/9109949f-7db5-4937-a1bf-4037c8bf3b79)
 ![image](https://github.com/user-attachments/assets/60c01f2e-be43-4dad-bba2-f72784c728ab)
 
+## DEMO
+https://github.com/user-attachments/assets/7291bee3-d60c-4dd8-8fde-21c7e52f4596
 
+## What technologies are used for this project?
+This project is built with:
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
 
 
