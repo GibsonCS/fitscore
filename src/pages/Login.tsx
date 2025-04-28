@@ -1,11 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 
@@ -16,6 +16,21 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const supabaseConfigured = isSupabaseConfigured();
 
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkSession = async () => {
+      if (!supabaseConfigured) return;
+      
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        console.log("User already logged in, redirecting to dashboard");
+        navigate('/dashboard');
+      }
+    };
+    
+    checkSession();
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -23,6 +38,7 @@ const Login = () => {
     try {
       if (!supabaseConfigured) {
         // Use demo mode if Supabase isn't configured
+        console.log("Login in demo mode, redirecting to dashboard");
         toast.success('Login em modo demo realizado com sucesso!');
         navigate('/dashboard');
         return;
@@ -35,9 +51,11 @@ const Login = () => {
 
       if (error) throw error;
 
+      console.log("Login successful, redirecting to dashboard");
       toast.success('Login realizado com sucesso!');
       navigate('/dashboard');
     } catch (error: any) {
+      console.error("Login error:", error);
       toast.error(error.message || 'Erro ao fazer login');
     } finally {
       setLoading(false);
