@@ -20,12 +20,9 @@ const Login = () => {
 
     try {
       // Always use demo mode
-      console.log("Login in demo mode, redirecting to dashboard");
       toast.success('Login em modo demo realizado com sucesso!');
       
-      setTimeout(() => {
         navigate('/dashboard', { replace: true });
-      }, 300);
     } catch (error: any) {
       console.error("Auth error:", error);
       toast.error(error.message || 'Erro ao fazer login');
