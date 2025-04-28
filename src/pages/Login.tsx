@@ -36,7 +36,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      if (supabaseConfigured) {
+      if (!supabaseConfigured) {
         // Use demo mode if Supabase isn't configured
         console.log("Login in demo mode, redirecting to dashboard");
         toast.success('Login em modo demo realizado com sucesso!');
