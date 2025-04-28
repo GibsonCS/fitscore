@@ -41,11 +41,7 @@ const Login = () => {
         console.log("Login in demo mode, redirecting to dashboard");
         toast.success('Login em modo demo realizado com sucesso!');
         
-        // Force a timeout before navigation to ensure toast is visible
-        setTimeout(() => {
-          navigate('/dashboard', { replace: true });
-        }, 300);
-        
+        navigate('/dashboard', { replace: true }); 
         return;
       }
 
